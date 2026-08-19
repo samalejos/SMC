@@ -462,6 +462,14 @@ const readyBlocks: Record<number, VisualBlock[]> = {
       },
     },
     {
+      type: "callout",
+      callout: {
+        tone: "liq",
+        heading: "When the two IBs disagree, the 1H wins",
+        body: "If the 1H IB reads range day (price staying inside it) but the 15m prints a break-and-hold, that's not a coin flip — it's the same HTF-governs-LTF rule from Module 6 applied here. Treat a 15m break inside a 1H range-day context as a trap until the 1H itself breaks, not as an independent signal to act on. This is also an adapted use of the term: the Initial Balance originates from Steidlmayer's Market Profile / Auction Market Theory, defined specifically on the RTH open. Applying it to killzone opens generally (Asia, London, NY) is this curriculum's convention, not the original definition.",
+      },
+    },
+    {
       type: "flowChart",
       heading: "The 15m IB break-and-retest entry",
       steps: [
@@ -483,11 +491,19 @@ const readyBlocks: Record<number, VisualBlock[]> = {
     },
     {
       type: "callout",
-      callout: { tone: "warn", heading: "SMT divergence — supporting context, never a standalone signal", body: "When correlated instruments disagree at a key level (e.g. NQ makes a new high, ES fails to), the instrument that confirms is the relative-strength leader — favor it for continuation, treat the lagging one with extra caution. Still needs a real liquidity event and displacement on the instrument being traded." },
+      callout: {
+        tone: "warn",
+        heading: "What the wide stop costs you — do the math, don't feel it",
+        body: "A wider stop doesn't just compress R:R, it shrinks position size at a fixed dollar risk. MNQ, $2/point, $400 cap: an 80-point excursion stop → floor(400 ÷ 160) = 2 contracts. A 40-point stop → floor(400 ÷ 80) = 5 contracts. To make the same dollar profit on the wide-stop trade as the tight-stop one, the target has to be proportionally further away, not just the same point count — and if it isn't, you need a materially higher win rate to break even, since breakeven win rate = 1 ÷ (1 + Average R) from Module 9. Check that math before taking the setup, not after.",
+      },
     },
     {
       type: "callout",
-      callout: { tone: "warn", heading: "News filter", body: "High-impact releases (FOMC, NFP, CPI) can override technical structure. Stay flat through the release or wait for post-news displacement and newly formed liquidity pools." },
+      callout: { tone: "warn", heading: "SMT divergence — supporting context, never a standalone signal", body: "When correlated instruments disagree at a key level (e.g. NQ makes a new high, ES fails to), the instrument that confirms is the relative-strength leader — favor it for continuation, treat the lagging one with extra caution. Still needs a real liquidity event and displacement on the instrument being traded. NQ and ES aren't the same asset with minor variance: NQ is concentrated in mega-cap tech and more rate-sensitive, ES is a broader basket including financials and energy. A lot of what looks like divergence is sector rotation or Treasury-yield sensitivity, not a liquidity event — check whether the divergence survives on a day without a mega-cap earnings print or a yield move before trusting it." },
+    },
+    {
+      type: "callout",
+      callout: { tone: "warn", heading: "News filter and session-clock drift", body: "High-impact releases (FOMC, NFP, CPI) can override technical structure. Stay flat through the release or wait for post-news displacement and newly formed liquidity pools. Separately: London and New York shift into daylight saving on different dates each spring and fall, so a fixed killzone clock silently drifts by an hour for two to three weeks each transition — verify current session times against your platform rather than assuming last month's clock still applies." },
     },
     {
       type: "callout",
