@@ -79,8 +79,15 @@ export interface StackFitSpec {
   unitLabel: string;
 }
 
+export interface DataTable {
+  caption?: string;
+  headers: string[];
+  rows: string[][];
+}
+
 export type VisualBlock =
   | { type: "chart" }
+  | { type: "paragraph"; text: string }
   | { type: "microDiagrams"; items: MicroDiagramSpec[] }
   | { type: "conceptCards"; concepts: ConceptCard[] }
   | { type: "comparePanels"; spec: ComparePanelsSpec }
@@ -89,7 +96,19 @@ export type VisualBlock =
   | { type: "flowChart"; heading: string; steps: FlowStep[] }
   | { type: "truthTable"; pair: TruthTablePair }
   | { type: "callout"; callout: Callout }
-  | { type: "recallCheck"; check: RecallCheck };
+  | { type: "recallCheck"; check: RecallCheck }
+  | { type: "dataTable"; table: DataTable };
+
+export interface DepthModule {
+  slug: string;
+  number: number;
+  phase: string;
+  title: string;
+  status: "ready" | "coming-soon";
+  goal?: string;
+  hasChart?: boolean;
+  blocks: VisualBlock[];
+}
 
 export interface Lesson {
   slug: string;

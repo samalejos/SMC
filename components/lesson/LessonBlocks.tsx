@@ -10,6 +10,7 @@ import type { ChartSceneData } from "@/lib/chart/types";
 import type {
   Callout as CalloutT,
   ConceptCard,
+  DataTable as DataTableT,
   RecallCheck as RecallCheckT,
   TruthTablePair,
   VisualBlock,
@@ -30,6 +31,36 @@ export function ConceptGrid({ concepts }: { concepts: ConceptCard[] }) {
           </p>
         </div>
       ))}
+    </div>
+  );
+}
+
+export function DataTableBlock({ table }: { table: DataTableT }) {
+  return (
+    <div className="overflow-x-auto rounded-lg border border-border">
+      <table className="w-full min-w-[480px] border-collapse text-sm">
+        <thead>
+          <tr className="bg-bg-elevated">
+            {table.headers.map((h) => (
+              <th key={h} className="border-b border-border px-3 py-2 text-left text-xs font-bold uppercase tracking-wide text-text-muted">
+                {h}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {table.rows.map((row, i) => (
+            <tr key={i} className="odd:bg-bg-card even:bg-bg-elevated/40">
+              {row.map((cell, j) => (
+                <td key={j} className="border-b border-border/60 px-3 py-2 align-top text-text-muted">
+                  {cell}
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      {table.caption && <div className="border-t border-border bg-bg-card px-3 py-1.5 text-xs text-text-muted">{table.caption}</div>}
     </div>
   );
 }
@@ -109,6 +140,12 @@ export function LessonBlockList({ blocks, scene }: { blocks: VisualBlock[]; scen
     <div className="space-y-6">
       {blocks.map((block, i) => {
         switch (block.type) {
+          case "paragraph":
+            return (
+              <p key={i} className="text-sm leading-relaxed text-text-muted">
+                <GlossaryText text={block.text} />
+              </p>
+            );
           case "chart":
             return scene ? <LessonChart key={i} scene={scene} /> : null;
           case "microDiagrams":
@@ -125,6 +162,8 @@ export function LessonBlockList({ blocks, scene }: { blocks: VisualBlock[]; scen
             return <FlowChartBlock key={i} heading={block.heading} steps={block.steps} />;
           case "truthTable":
             return <TruthTableBlock key={i} pair={block.pair} />;
+          case "dataTable":
+            return <DataTableBlock key={i} table={block.table} />;
           case "callout":
             return <CalloutBlock key={i} callout={block.callout} />;
           case "recallCheck":
