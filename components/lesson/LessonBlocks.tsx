@@ -2,14 +2,17 @@
 
 import { useState } from "react";
 import { useProgress } from "@/lib/progress";
+import { GlossaryText } from "@/components/diagrams/InlineTerm";
+import { TrendGlyph, ComparePanelsBlock, MeterBarBlock, StackFitBlock, FlowChartBlock } from "@/components/diagrams/Diagrams";
+import { MicroDiagramGrid } from "@/components/diagrams/MicroDiagrams";
+import LessonChart from "@/components/chart/LessonChart";
+import type { ChartSceneData } from "@/lib/chart/types";
 import type {
   Callout as CalloutT,
   ConceptCard,
-  DataTable as DataTableT,
-  DecisionChainStep,
-  FormulaCard as FormulaCardT,
   RecallCheck as RecallCheckT,
   TruthTablePair,
+  VisualBlock,
 } from "@/lib/content/types";
 
 export function ConceptGrid({ concepts }: { concepts: ConceptCard[] }) {
@@ -18,66 +21,15 @@ export function ConceptGrid({ concepts }: { concepts: ConceptCard[] }) {
       {concepts.map((c) => (
         <div key={c.term} className="rounded-lg border border-border bg-bg-card p-3">
           <div className="text-xs text-text-muted">{c.plain}</div>
-          <div className="mt-0.5 text-sm font-bold uppercase tracking-wide text-accent">{c.term}</div>
-          <p className="mt-1.5 text-sm text-text-muted">{c.body}</p>
+          <div className="mt-0.5 flex items-center gap-1.5 text-sm font-bold uppercase tracking-wide text-accent">
+            {c.glyph && <TrendGlyph kind={c.glyph} />}
+            {c.term}
+          </div>
+          <p className="mt-1.5 text-sm text-text-muted">
+            <GlossaryText text={c.body} />
+          </p>
         </div>
       ))}
-    </div>
-  );
-}
-
-export function FormulaCardBlock({ card }: { card: FormulaCardT }) {
-  return (
-    <div className="rounded-lg border border-border bg-bg-card p-4">
-      <h4 className="text-sm font-bold text-text">{card.heading}</h4>
-      <p className="mt-1.5 text-sm text-text-muted">{card.intro}</p>
-      {card.formulaLines && (
-        <div className="mt-2 space-y-1">
-          {card.formulaLines.map((line) => (
-            <code key={line} className="block rounded bg-bg-elevated px-2 py-1 font-mono text-xs text-accent">
-              {line}
-            </code>
-          ))}
-        </div>
-      )}
-      <div className="mt-3 grid gap-2.5 sm:grid-cols-3">
-        {card.rules.map((r) => (
-          <div key={r.label} className="rounded-md bg-bg-elevated p-2.5">
-            <div className="text-xs font-bold text-text">{r.label}</div>
-            <div className="mt-0.5 text-xs text-text-muted">{r.body}</div>
-          </div>
-        ))}
-      </div>
-      {card.footnote && <p className="mt-3 text-xs text-text-muted">{card.footnote}</p>}
-    </div>
-  );
-}
-
-export function DataTableBlock({ table }: { table: DataTableT }) {
-  return (
-    <div className="overflow-x-auto rounded-lg border border-border">
-      <table className="w-full min-w-[480px] border-collapse text-sm">
-        <thead>
-          <tr className="bg-bg-elevated">
-            {table.headers.map((h) => (
-              <th key={h} className="border-b border-border px-3 py-2 text-left text-xs font-bold uppercase tracking-wide text-text-muted">
-                {h}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {table.rows.map((row, i) => (
-            <tr key={i} className="odd:bg-bg-card even:bg-bg-elevated/40">
-              {row.map((cell, j) => (
-                <td key={j} className="border-b border-border/60 px-3 py-2 align-top text-text-muted">
-                  {cell}
-                </td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
     </div>
   );
 }
@@ -106,26 +58,10 @@ export function CalloutBlock({ callout }: { callout: CalloutT }) {
   return (
     <div className={`rounded-lg border p-3 ${toneClasses[callout.tone]}`}>
       <div className="text-xs font-bold uppercase tracking-wide">{callout.heading}</div>
-      <p className="mt-1 text-sm text-text-muted">{callout.body}</p>
+      <p className="mt-1 text-sm text-text-muted">
+        <GlossaryText text={callout.body} />
+      </p>
     </div>
-  );
-}
-
-export function DecisionChainBlock({ steps }: { steps: DecisionChainStep[] }) {
-  return (
-    <ol className="space-y-2.5">
-      {steps.map((s, i) => (
-        <li key={s.heading} className="flex gap-3 rounded-lg border border-border bg-bg-card p-3">
-          <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-accent text-xs font-bold text-bg">
-            {i + 1}
-          </span>
-          <div>
-            <div className="text-sm font-bold text-text">{s.heading}</div>
-            <div className="mt-0.5 text-sm text-text-muted">{s.body}</div>
-          </div>
-        </li>
-      ))}
-    </ol>
   );
 }
 
@@ -164,6 +100,39 @@ export function RecallCheckBlock({ check }: { check: RecallCheckT }) {
           <strong className="text-text">Model response:</strong> {check.modelAnswer}
         </div>
       )}
+    </div>
+  );
+}
+
+export function LessonBlockList({ blocks, scene }: { blocks: VisualBlock[]; scene?: ChartSceneData }) {
+  return (
+    <div className="space-y-6">
+      {blocks.map((block, i) => {
+        switch (block.type) {
+          case "chart":
+            return scene ? <LessonChart key={i} scene={scene} /> : null;
+          case "microDiagrams":
+            return <MicroDiagramGrid key={i} items={block.items} />;
+          case "conceptCards":
+            return <ConceptGrid key={i} concepts={block.concepts} />;
+          case "comparePanels":
+            return <ComparePanelsBlock key={i} spec={block.spec} />;
+          case "meterBar":
+            return <MeterBarBlock key={i} spec={block.spec} />;
+          case "stackFit":
+            return <StackFitBlock key={i} spec={block.spec} />;
+          case "flowChart":
+            return <FlowChartBlock key={i} heading={block.heading} steps={block.steps} />;
+          case "truthTable":
+            return <TruthTableBlock key={i} pair={block.pair} />;
+          case "callout":
+            return <CalloutBlock key={i} callout={block.callout} />;
+          case "recallCheck":
+            return <RecallCheckBlock key={i} check={block.check} />;
+          default:
+            return null;
+        }
+      })}
     </div>
   );
 }

@@ -45,32 +45,26 @@ export const screenBasicsScene: ChartSceneData = {
   candles: screenBasicsCandles,
   caption: "Synthetic MNQ study chart. Prices are illustrative, not a live feed.",
   steps: [
-    step("instrument", "1", "Instrument / contract", "This is one Micro E-mini Nasdaq-100 (MNQ) contract, one delivery month. The symbol and month matter when you compare charts.", [
-      { kind: "marker", time: day(0), price: 20000, color: COLOR.liq, text: "MNQ · Dec contract" },
-    ]),
-    step("long", "2", "Long — profits when price rises", "Watch the path: entering long near 20,028 and exiting near 20,058 profits from the rise. The dot traces the trade, it does not predict it.", [
+    step("long", "1", "Long — profits when price rises", "Watch the path: entering long near 20,028 and exiting near 20,058 profits from the rise. The dot traces the trade, it does not predict it.", [
       { kind: "tradePath", direction: "long", entryTime: day(5), entryPrice: 20028, exitTime: day(11), exitPrice: 20058, color: COLOR.bull },
       { kind: "marker", time: day(5), price: 20028, color: COLOR.bull, text: "long entry" },
     ]),
-    step("short", "3", "Short — profits when price falls", "A short does the opposite: it profits only if price falls after entry. This illustrative path shows the mirror trade — same entry idea, opposite direction.", [
+    step("short", "2", "Short — profits when price falls", "A short does the opposite: it profits only if price falls after entry. This illustrative path shows the mirror trade — same entry idea, opposite direction.", [
       { kind: "tradePath", direction: "short", entryTime: day(5), entryPrice: 20028, exitTime: day(2), exitPrice: 20002, color: COLOR.bear },
       { kind: "marker", time: day(5), price: 20028, color: COLOR.bear, text: "short entry" },
     ]),
-    step("ticks", "4", "Point / tick", "A point is one full index unit. For MNQ, one point = four 0.25-point ticks, worth $2 per point per contract. This shaded sliver is exactly 1.00 point.", [
+    step("ticks", "3", "Point / tick", "A point is one full index unit. For MNQ, one point = four 0.25-point ticks, worth $2 per point per contract. This shaded sliver is exactly 1.00 point.", [
       { kind: "box", time1: day(5) + 20000, time2: day(6) + 20000, price1: 20028, price2: 20029, color: COLOR.accentSoft, borderColor: COLOR.accent, label: "1.00 pt = 4 ticks" },
     ]),
-    step("plan", "5", "Entry / stop / target — the risk:reward zones", "Shaded red is the risk between entry and stop. Shaded green is the reward between entry and target. This plan risks 15 points to make 30 — a 1:2 ratio, sized before anything is drawn on a broker.", [
+    step("plan", "4", "Entry / stop / target — the risk:reward zones", "Shaded red is the risk between entry and stop. Shaded green is the reward between entry and target. This plan risks 15 points to make 30 — a 1:2 ratio, sized before anything is drawn on a broker.", [
       { kind: "priceLine", price: 20030, color: COLOR.accent, label: "entry" },
       { kind: "priceLine", price: 20015, color: COLOR.warn, label: "stop", dashed: true },
       { kind: "priceLine", price: 20060, color: COLOR.bull, label: "target", dashed: true },
       { kind: "box", time1: day(5), time2: day(9), price1: 20030, price2: 20015, color: COLOR.bearSoft, borderColor: COLOR.bear, label: "Risk" },
       { kind: "box", time1: day(5), time2: day(9), price1: 20030, price2: 20060, color: COLOR.bullSoft, borderColor: COLOR.bull, label: "Reward · R:R = 1:2" },
     ]),
-    step("live", "6", "Live bar — can still change", "The final candle is pulsing because its high, low and close are not fixed yet. A rule that requires a completed close must wait for this bar to finish.", [
+    step("live", "5", "Live bar — can still change", "The final candle is pulsing because its high, low and close are not fixed yet. A rule that requires a completed close must wait for this bar to finish.", [
       { kind: "pulseCandle", time: day(13), label: "still forming" },
-    ]),
-    step("session", "7", "Session / timezone", "Record the session and timezone with every chart you study — a timestamp without a timezone is incomplete, and a session label can cross the wall-clock date.", [
-      { kind: "marker", time: day(0), price: 19995, color: COLOR.liq, text: "5m · America/New_York" },
     ]),
   ],
 };
@@ -179,10 +173,17 @@ export const stage3Scene: ChartSceneData = {
     step("low", "2", "External liquidity — range low", "The obvious untested low below.", [
       { kind: "priceLine", price: 90, color: COLOR.liq, label: "prior low", dashed: true },
     ]),
-    step("poi", "3", "Point of Interest", "Bar 7's down move before the rally away is marked as a POI — a zone to monitor, not an automatic entry.", [
+    step("internal", "3", "Internal liquidity", "Bar 5's minor swing sits inside the range — a smaller level price can interact with before ever reaching the range boundary.", [
+      { kind: "marker", time: day(5), price: 91, color: COLOR.liq, text: "internal liquidity" },
+    ]),
+    step("premium", "4", "Premium / discount", "Split the same range in half. The upper half is premium, the lower half discount — which exact range you're measuring has to be named, not just 'upper' or 'lower'.", [
+      { kind: "box", time1: day(0), time2: day(9), price1: 97.5, price2: 105, color: COLOR.bearSoft, borderColor: COLOR.bear, label: "premium" },
+      { kind: "box", time1: day(0), time2: day(9), price1: 90, price2: 97.5, color: COLOR.bullSoft, borderColor: COLOR.bull, label: "discount" },
+    ]),
+    step("poi", "5", "Point of Interest", "Bar 7's down move before the rally away is marked as a POI — a zone to monitor, not an automatic entry.", [
       { kind: "box", time1: day(6), time2: day(8), price1: 94, price2: 100, color: COLOR.accentSoft, borderColor: COLOR.accent, label: "POI — watch, don't assume" },
     ]),
-    step("dol", "4", "Draw on Liquidity", "The named objective this hypothesis is drawn toward — here, the prior high. A DOL must be a specific level, never just 'higher'.", [
+    step("dol", "6", "Draw on Liquidity", "The named objective this hypothesis is drawn toward — here, the prior high. A DOL must be a specific level, never just 'higher'.", [
       { kind: "priceLine", price: 105, color: COLOR.liq, label: "DOL", dashed: true },
       { kind: "marker", time: day(9), price: 105, color: COLOR.liq, text: "DOL" },
     ]),
@@ -216,6 +217,12 @@ export const stage4Scene: ChartSceneData = {
     ]),
     step("zone", "4", "Reaction zone", "Price retraces toward the zone the displacement left behind. A learner still needs lower-timeframe confirmation and invalidation before this becomes a candidate.", [
       { kind: "box", time1: day(5), time2: day(6), price1: 94, price2: 97, color: COLOR.accentSoft, borderColor: COLOR.accent, label: "reaction zone" },
+    ]),
+    step("ob", "5", "Order Block", "Bar 3 is the last opposing (bearish) candle before displacement. It's marked as an Order Block — a convention for a reaction zone, not proof of who traded there.", [
+      { kind: "box", ...barBox(3), price1: 96, price2: 94, color: COLOR.bearSoft, borderColor: COLOR.bear, label: "OB" },
+    ]),
+    step("fvg", "6", "Fair Value Gap", "Displacement moved fast enough to leave a gap between candles — an imbalance. It marks inefficiency; it doesn't promise price returns to fill it.", [
+      { kind: "box", time1: day(4), time2: day(5), price1: 97, price2: 101, color: COLOR.accentSoft, borderColor: COLOR.accent, label: "FVG" },
     ]),
   ],
 };

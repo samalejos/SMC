@@ -2,6 +2,7 @@ export interface ConceptCard {
   plain: string;
   term: string;
   body: string;
+  glyph?: "up" | "down" | "flat";
 }
 
 export interface RecallCheck {
@@ -9,25 +10,6 @@ export interface RecallCheck {
   prompt: string;
   placeholder: string;
   modelAnswer: string;
-}
-
-export interface RuleStep {
-  label: string;
-  body: string;
-}
-
-export interface FormulaCard {
-  heading: string;
-  intro: string;
-  formulaLines?: string[];
-  rules: RuleStep[];
-  footnote?: string;
-}
-
-export interface DataTable {
-  caption?: string;
-  headers: string[];
-  rows: string[][];
 }
 
 export interface TruthTablePair {
@@ -43,10 +25,71 @@ export interface Callout {
   body: string;
 }
 
-export interface DecisionChainStep {
-  heading: string;
+export interface FlowStep {
+  label: string;
   body: string;
+  branch?: "pass" | "reject";
 }
+
+export type MicroDiagramKind =
+  | "instrument"
+  | "tick-ruler"
+  | "session-clock"
+  | "candle-anatomy"
+  | "timeframe-compression"
+  | "swing-rule";
+
+export interface MicroDiagramSpec {
+  kind: MicroDiagramKind;
+  title: string;
+  caption: string;
+}
+
+export interface PanelSpec {
+  label: string;
+  verdict: "bull" | "bear" | "warn";
+  points: number[];
+  note: string;
+}
+
+export interface ComparePanelsSpec {
+  heading: string;
+  left: PanelSpec;
+  right: PanelSpec;
+}
+
+export interface MeterBarSpec {
+  heading: string;
+  intro: string;
+  valuePct: number;
+  thresholdPct: number;
+  valueLabel: string;
+  passLabel: string;
+  failLabel: string;
+  verdict: "pass" | "fail";
+}
+
+export interface StackFitSpec {
+  heading: string;
+  intro: string;
+  budget: number;
+  unit: number;
+  fits: number;
+  budgetLabel: string;
+  unitLabel: string;
+}
+
+export type VisualBlock =
+  | { type: "chart" }
+  | { type: "microDiagrams"; items: MicroDiagramSpec[] }
+  | { type: "conceptCards"; concepts: ConceptCard[] }
+  | { type: "comparePanels"; spec: ComparePanelsSpec }
+  | { type: "meterBar"; spec: MeterBarSpec }
+  | { type: "stackFit"; spec: StackFitSpec }
+  | { type: "flowChart"; heading: string; steps: FlowStep[] }
+  | { type: "truthTable"; pair: TruthTablePair }
+  | { type: "callout"; callout: Callout }
+  | { type: "recallCheck"; check: RecallCheck };
 
 export interface Lesson {
   slug: string;
@@ -54,14 +97,8 @@ export interface Lesson {
   stageKicker: string;
   title: string;
   goal: string;
-  concepts?: ConceptCard[];
   hasChart?: boolean;
-  formulaCard?: FormulaCard;
-  dataTable?: DataTable;
-  truthTable?: TruthTablePair;
-  callout?: Callout;
-  decisionChain?: DecisionChainStep[];
-  recallChecks: RecallCheck[];
+  blocks: VisualBlock[];
   nextSlug: string | null;
   nextLabel: string | null;
 }
