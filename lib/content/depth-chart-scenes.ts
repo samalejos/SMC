@@ -275,30 +275,46 @@ export const m7Scene: ChartSceneData = {
 
 // ---------- Module 8 · Session Structure, Killzones & Daily Bias ----------
 const m8Candles = candles([
-  [100, 101, 98, 100],
-  [100, 102, 99, 101],
-  [101, 103, 100, 102],
-  [102, 104, 101, 103],
-  [103, 104, 99, 100],
-  [100, 108, 99, 106],
-  [106, 107, 103, 105],
   [105, 106, 102, 104],
+  [104, 105, 101, 103],
+  [103, 104, 100, 102],
+  [102, 103, 99, 101],
+  [101, 102, 97, 99],
+  [99, 100, 90, 92],
+  [92, 98, 91, 96],
+  [96, 101, 95, 100],
+  [100, 101, 97, 99],
+  [99, 108, 98, 106],
+  [106, 112, 105, 110],
+  [110, 116, 108, 114],
 ]);
 
 export const m8Scene: ChartSceneData = {
   candles: m8Candles,
-  caption: "Same Initial Balance, opposite reads — the test is whether price breaks and holds, or pokes and rejects.",
+  caption: "A 1-hour Initial Balance frames the session. The mechanical entry itself fires on the 15m, inside that frame.",
   steps: [
-    step("ib", "1", "Initial Balance forms", "The high/low range set in the first 30–60 minutes after a killzone opens — here, roughly 99 to 104.", [
-      { kind: "box", time1: day(0), time2: day(3), price1: 99, price2: 104, color: COLOR.accentSoft, borderColor: COLOR.accent, label: "Initial Balance" },
+    step("ib", "1", "1H IB sets the context", "The 1-hour Initial Balance — the range set in the session's first 60 minutes — frames today's range. Every step from here happens on the 15m, but inside this context, the same governs-vs-triggers hierarchy as Module 6.", [
+      { kind: "box", time1: day(0), time2: day(3), price1: 106, price2: 99, color: COLOR.accentSoft, borderColor: COLOR.accent, label: "1H Initial Balance" },
     ]),
-    step("breakhold", "2", "Break and hold — trend day", "Bar 5 displaces through the IB high and doesn't reclaim it. That's an IB breakout — favor continuation tools in the breakout direction.", [
-      { kind: "priceLine", price: 104, color: COLOR.accent, label: "IB high", dashed: true },
-      { kind: "marker", time: day(5), price: 108, color: COLOR.bull, text: "break & hold" },
+    step("break", "2", "15m closes below the IB", "A 15-minute candle completes a close below the IB low — not a wick, a close. This is the break, and on its own it is not the entry.", [
+      { kind: "priceLine", price: 99, color: COLOR.accent, label: "IB low", dashed: true },
+      { kind: "marker", time: day(5), price: 90, color: COLOR.warn, text: "15m close below IB" },
     ]),
-    step("sweepreject", "3", "The alternate branch — sweep and reject", "Had price instead poked above the IB high and closed back inside within a candle or two, that's an IB sweep — treat the extreme as a liquidity event, not a breakout.", [
-      { kind: "priceLine", price: 104, color: COLOR.accent, label: "IB high", dashed: true },
-      { kind: "box", ...barBox(5), price1: 108, price2: 104, color: COLOR.warn + "33", borderColor: COLOR.warn, label: "would be: sweep & reject" },
+    step("retest", "3", "Price reclaims and retests the IB", "Price returns and touches the IB boundary again from below — the retest. This, not the original break, is what the entry is built on.", [
+      { kind: "priceLine", price: 99, color: COLOR.accent, label: "IB low", dashed: true },
+      { kind: "marker", time: day(7), price: 100, color: COLOR.accent, text: "retest from below" },
+    ]),
+    step("entry", "4", "Entry on the retest holding", "The retest holds — price doesn't re-break below the excursion low. That's the entry trigger, at the IB boundary itself.", [
+      { kind: "priceLine", price: 99, color: COLOR.accent, label: "IB low" },
+      { kind: "priceLine", price: 90, color: COLOR.warn, label: "excursion low", dashed: true },
+    ]),
+    step("stop", "5", "Stop beyond the extreme, not just beyond entry", "The stop goes below the lowest point of the entire excursion — bar 5's full low — not a few ticks below entry. This protects against that exact level being swept again.", [
+      { kind: "box", ...barBox(5), price1: 100, price2: 90, color: COLOR.bearSoft, borderColor: COLOR.bear, label: "protect this extreme" },
+      { kind: "priceLine", price: 90, color: COLOR.warn, label: "stop", dashed: true },
+    ]),
+    step("continuation", "6", "Continuation", "With the retest held and the stop placed beyond the real extreme, price continues in the reclaim direction.", [
+      { kind: "priceLine", price: 90, color: COLOR.warn, label: "stop", dashed: true },
+      { kind: "marker", time: day(11), price: 114, color: COLOR.bull, text: "continuation" },
     ]),
   ],
 };

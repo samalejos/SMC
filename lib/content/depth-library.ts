@@ -97,13 +97,13 @@ export interface BridgeRow {
 }
 
 export const beginnerBridge: BridgeRow[] = [
-  { stageSlug: "before-stage-1", stageLabel: "Before Stage 1 · Understand the screen", moduleNumbers: [21, 9] },
+  { stageSlug: "before-stage-1", stageLabel: "Before Stage 1 · Understand the screen", moduleNumbers: [9] },
   { stageSlug: "stage-1", stageLabel: "Stage 1 · See the chart", moduleNumbers: [1] },
   { stageSlug: "stage-2", stageLabel: "Stage 2 · Read direction", moduleNumbers: [1, 6] },
   { stageSlug: "stage-3", stageLabel: "Stage 3 · Find location", moduleNumbers: [2, 7] },
   { stageSlug: "stage-4", stageLabel: "Stage 4 · Judge reaction", moduleNumbers: [3, 4, 5] },
   { stageSlug: "stage-5", stageLabel: "Stage 5 · Make a decision", moduleNumbers: [9, 10] },
-  { stageSlug: "apply", stageLabel: "Apply it · Guided walkthrough", moduleNumbers: [8, 40] },
+  { stageSlug: "apply", stageLabel: "Apply it · Guided walkthrough", moduleNumbers: [8, 10] },
 ];
 
 const readyBlocks: Record<number, VisualBlock[]> = {
@@ -240,13 +240,21 @@ const readyBlocks: Record<number, VisualBlock[]> = {
     },
     { type: "chart" },
     {
+      type: "callout",
+      callout: {
+        tone: "liq",
+        heading: "What the chart actually gives you, versus the theory on top of it",
+        body: "A candle chart cannot prove a resting order exists or who placed it — that's already established. An Order Block is, mechanically, a price zone defined from the last opposing candle before qualifying displacement, monitored for a later reaction. SMC theory interprets that zone as potentially associated with unfinished institutional activity. That interpretation is not verifiable from candles alone; the zone definition and the reaction you trade are.",
+      },
+    },
+    {
       type: "dataTable",
       table: {
-        headers: ["Block type", "Formation sequence", "What it means"],
+        headers: ["Block type", "Formation sequence", "What the chart gives you"],
         rows: [
-          ["Order Block", "Last opposing candle → displacement leaves imbalance", "Zone of potential unfilled orders"],
-          ["Breaker Block", "OB forms → closes through → retraces → acts with opposite polarity", "Failed prior order, now support/resistance the other way"],
-          ["Mitigation Block", "Price returns and fills orders without a decisive close through", "Partial or full fill; may still hold or later become a breaker"],
+          ["Order Block", "Last opposing candle → displacement leaves imbalance", "A defined price zone, monitored for a later reaction"],
+          ["Breaker Block", "OB forms → closes through → retraces → acts with opposite polarity", "The same zone, now monitored for the opposite reaction"],
+          ["Mitigation Block", "Price returns and fills orders without a decisive close through", "Partial or full reaction inside the zone without invalidation"],
         ],
       },
     },
@@ -293,7 +301,7 @@ const readyBlocks: Record<number, VisualBlock[]> = {
         headers: ["FVG", "What happened", "What it means for entries"],
         rows: [
           ["1 — Full fill", "Price traded back through the entire gap, closing it completely", "The imbalance is spent — stop treating it as fresh"],
-          ["2 — Partial fill to CE", "Price reached the 50% level, reacted there, reversed", "The most common outcome, especially on higher timeframes"],
+          ["2 — Partial fill to CE", "Price reached the 50% level, reacted there, reversed", "CE is the reference point this curriculum monitors first — whether price preferentially reacts there is an empirical question, testable per instrument, timeframe and regime, not an assumed rule"],
           ["3 — Inversion", "Price closed fully through in the opposite direction; the zone later acted as support from the other side", "Supporting evidence delivery has shifted — not a standalone trigger"],
         ],
       },
@@ -312,7 +320,14 @@ const readyBlocks: Record<number, VisualBlock[]> = {
     },
   ],
   6: [
-    { type: "paragraph", text: "Higher-timeframe structure and points of interest always outrank lower-timeframe noise. Most live trading errors in SMC come from ignoring this hierarchy." },
+    {
+      type: "callout",
+      callout: {
+        tone: "liq",
+        heading: "System convention, not a market law",
+        body: "For this curriculum's execution model, higher-timeframe structure and points of interest govern candidate direction — counter-HTF trades are outside the model. That's a stated operating rule for how this engine trades, not a claim about how markets universally work. Most live trading errors inside this system come from ignoring that rule, which is a different thing from the rule being objectively true of all markets.",
+      },
+    },
     {
       type: "flowChart",
       heading: "Nesting rules (HTF → ITF → LTF)",
@@ -382,6 +397,14 @@ const readyBlocks: Record<number, VisualBlock[]> = {
     { type: "paragraph", text: "After displacement, price often produces a shallow first pullback, then a deeper second retracement. The deeper second entry is often treated as higher quality — cleaner structure, better-defined invalidation — but this is a heuristic, not a requirement. A first valid retracement with clear rejection and immediate continuation can still be taken." },
     {
       type: "callout",
+      callout: {
+        tone: "warn",
+        heading: "This is not the same axis as Module 4's first-touch rule",
+        body: "Module 4 says the first touch of a given zone is often the highest-quality visit to that zone, and each later touch of the same zone degrades it. This module says a deeper second pullback within one displacement leg can be the higher-quality retracement. Those describe different things: touch count is about how many times price has already revisited one specific zone; pullback depth is about which retracement, within a single leg, reaches which zone. A first-touch entry at a deep OTE zone and a \"second pullback\" entry can be the exact same trade — they're only in tension if you conflate \"first\" and \"shallow.\" A second touch of an already-spent zone is not automatically better just because it's the second pullback of the leg.",
+      },
+    },
+    {
+      type: "callout",
       callout: { tone: "warn", heading: "The error this demonstration prevents", body: "Drawing Fib on a swing that didn't break structure produces an OTE band that means nothing. And OTE alone is not a setup — price can travel straight through 62–79% when no HTF POI sits inside it." },
     },
     {
@@ -397,24 +420,23 @@ const readyBlocks: Record<number, VisualBlock[]> = {
     {
       type: "conceptCards",
       concepts: [
-        { plain: "Range-bound, building orders", term: "Accumulation", body: "Often Asia / early London." },
-        { plain: "Stop-run / liquidity sweep", term: "Manipulation", body: "Often into a killzone." },
-        { plain: "The real directional move", term: "Distribution", body: "After the manipulation." },
+        { plain: "Observed: range-bound, compressing", term: "Accumulation (traditional label)", body: "Often Asia / early London. What's actually observable is compression — the label names a presumed cause, not a proven one." },
+        { plain: "Observed: a sharp excursion beyond the range", term: "Manipulation (traditional label)", body: "Often into a killzone. What's observable is a liquidity excursion — whether it was \"manipulation\" in intent can't be verified from candles." },
+        { plain: "Observed: sustained directional move", term: "Distribution (traditional label)", body: "After the excursion. What's observable is directional expansion — the traditional SMC name for this phase, not a claim about who caused it." },
       ],
     },
     {
       type: "callout",
-      callout: { tone: "warn", heading: "AMD is a lens, not a law", body: "Many days skip accumulation entirely and open with immediate displacement. Others reverse after the \"distribution\" leg. Use AMD only to contextualize what has already happened — never to forecast the next phase." },
+      callout: { tone: "warn", heading: "AMD is a lens, not a law", body: "The reliable part is the observed sequence: compression → liquidity excursion → directional expansion. \"Accumulation/Manipulation/Distribution\" are this curriculum's traditional names for that sequence, not evidence of a single actor executing a plan. Many days skip accumulation entirely and open with immediate displacement. Others reverse after the \"distribution\" leg. Use AMD only to contextualize what has already happened — never to forecast the next phase." },
     },
-    { type: "chart" },
     {
       type: "dataTable",
       table: {
-        headers: ["Killzone", "Logic window", "Typical role"],
+        headers: ["Killzone", "Logic window", "System convention (not a backtested claim)"],
         rows: [
-          ["Asia", "Roughly the Asian session range-building period", "Accumulation / range"],
-          ["London Open KZ", "~2-hour window bracketing the London open", "Often manipulation or first expansion"],
-          ["NY AM KZ", "~First 2–3 hours after New York open", "Highest-probability continuation / distribution"],
+          ["Asia", "Roughly the Asian session range-building period", "Treated as accumulation / range"],
+          ["London Open KZ", "~2-hour window bracketing the London open", "Often the first excursion or expansion"],
+          ["NY AM KZ", "~First 2–3 hours after New York open", "This curriculum's convention treats it as the most active continuation window — verify against your own logged sessions rather than assuming"],
           ["London Close", "Window around London cash close", "Profit-taking / possible reversal"],
           ["NY PM", "Later New York session", "Lower volume; continuation or mean-reversion"],
         ],
@@ -429,6 +451,34 @@ const readyBlocks: Record<number, VisualBlock[]> = {
           ["Breaks and holds", "Displacement through the IB high/low that doesn't reclaim", "Trend day — favor continuation tools in the breakout direction"],
           ["Sweeps and rejects", "Pokes beyond the IB extreme, closes back inside within 1–2 candles", "The IB extreme was swept — treat as a liquidity event"],
         ],
+      },
+    },
+    {
+      type: "callout",
+      callout: {
+        tone: "liq",
+        heading: "Two Initial Balances, two jobs",
+        body: "Run the IB on two timeframes, not one, and don't let them compete: the 1-hour IB sets context — the same higher-timeframe-governs role structure plays in Module 6 — while the 15-minute IB is where a specific, mechanical entry actually fires. The 1H IB answers \"what kind of day is this.\" The 15m IB answers \"where exactly do I get in.\" Neither substitutes for the other.",
+      },
+    },
+    {
+      type: "flowChart",
+      heading: "The 15m IB break-and-retest entry",
+      steps: [
+        { label: "1H IB sets the context", body: "The 1-hour Initial Balance frames the session before any 15m decision is made." },
+        { label: "15m closes beyond the IB", body: "A completed 15-minute candle close beyond the IB boundary — not a wick. This is the break, and on its own it is not the entry." },
+        { label: "Price reclaims and retests the IB", body: "Price returns and touches the IB boundary again from the other side. The entry is built on this retest, not the original break." },
+        { label: "Entry triggers on the retest holding", body: "The retest holds — price doesn't re-break through the excursion extreme. That holding is the trigger, at the IB boundary itself." },
+        { label: "Stop beyond the excursion extreme", body: "The stop goes beyond the lowest low (or highest high) of the entire excursion — not just a few ticks beyond entry. This protects against that exact extreme being swept again." },
+      ],
+    },
+    { type: "chart" },
+    {
+      type: "callout",
+      callout: {
+        tone: "warn",
+        heading: "Why the stop sits at the excursion extreme, not near entry",
+        body: "A tight stop just beyond entry gets run by the same kind of noise that produced the retest in the first place — the whole point of waiting for the retest instead of entering on the break is to get a cleaner risk-reward, and that only holds if the stop actually protects the level that was already proven capable of being swept once.",
       },
     },
     {
