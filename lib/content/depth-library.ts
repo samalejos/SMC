@@ -311,6 +311,246 @@ const readyBlocks: Record<number, VisualBlock[]> = {
       callout: { tone: "bull", heading: "Practice drill", body: "On 5 historical FVGs, track forward: full fill, partial fill/CE, or no fill. Note which timeframe each was on — build a real sense of the base rate from your own sample, instead of assuming every FVG must fill." },
     },
   ],
+  6: [
+    { type: "paragraph", text: "Higher-timeframe structure and points of interest always outrank lower-timeframe noise. Most live trading errors in SMC come from ignoring this hierarchy." },
+    {
+      type: "flowChart",
+      heading: "Nesting rules (HTF → ITF → LTF)",
+      steps: [
+        { label: "Establish HTF bias first", body: "Daily / 4H structure + nearest external liquidity + key OB/FVG." },
+        { label: "LTF entries must align", body: "Only look for LTF entries (15m / 5m / 2m) that align with that HTF bias." },
+        { label: "HTF creates the narrative", body: "HTF displacement + liquidity sweep creates the narrative; LTF provides the refined entry." },
+        { label: "A counter-trend LTF CHoCH is usually a trap", body: "Until the HTF itself shows a liquidity event and displacement, treat it as corrective, not a reversal signal." },
+      ],
+    },
+    { type: "chart" },
+    {
+      type: "dataTable",
+      table: {
+        headers: ["Timeframe", "Question it answers", "Reading"],
+        rows: [
+          ["Daily", "Direction and DOL?", "HH/HL intact, sell-side already swept. Bias bullish. DOL = buy-side external at 21,600."],
+          ["4H", "Where is the POI?", "Sweep of a minor low, displacement higher. OB 21,380–21,400, FVG 21,410–21,440."],
+          ["15m", "Is price returning to it?", "Retracement underway into 21,390–21,410 — inside the 4H OB."],
+          ["5m", "Is the reaction real?", "CHoCH higher off the zone; 2m confirms inside it."],
+        ],
+      },
+    },
+    {
+      type: "callout",
+      callout: { tone: "liq", heading: "Resulting trade", body: "Entry 21,395, stop 21,340 below the swept low — 55 points. floor(400 ÷ (55 × 2)) = 3 contracts, $330 actual risk. TP1 21,505 (2R), TP2 21,600 (the DOL)." },
+    },
+    {
+      type: "callout",
+      callout: { tone: "warn", heading: "What would have invalidated this", body: "If the 15m had printed a CHoCH lower while the Daily was still bullish, that's corrective noise, not a reversal — skip it, don't flip bias. Bias only flips when the higher timeframe itself changes after its own liquidity event." },
+    },
+    {
+      type: "callout",
+      callout: { tone: "bull", heading: "Practice drill", body: "For 10 of your own past screenshots, write one sentence per timeframe (Daily, 4H, 15m, LTF) describing structure and state whether the lower timeframe agreed with or contradicted the higher timeframe." },
+    },
+  ],
+  7: [
+    {
+      type: "callout",
+      callout: { tone: "warn", heading: "Hard rule", body: "Draw Fibonacci only on a displacement leg that broke structure. Random swings produce random OTE zones." },
+    },
+    {
+      type: "conceptCards",
+      concepts: [
+        { plain: "Below the 50% equilibrium", term: "Discount", body: "Favorable for longs.", glyph: "down" },
+        { plain: "Above the 50% equilibrium", term: "Premium", body: "Favorable for shorts.", glyph: "up" },
+      ],
+    },
+    { type: "chart" },
+    {
+      type: "dataTable",
+      table: {
+        headers: ["Level", "Price", "Role"],
+        rows: [
+          ["0% (leg high)", "21,450", "Displacement high"],
+          ["50% (equilibrium)", "21,315", "Premium above / discount below"],
+          ["62%", "21,282.6", "OTE upper bound"],
+          ["79%", "21,236.7", "OTE lower bound"],
+          ["100% (leg low)", "21,180", "The swept low"],
+        ],
+      },
+    },
+    {
+      type: "callout",
+      callout: { tone: "bull", heading: "Confluence model", body: "OTE zone + HTF order block or FVG + liquidity already swept on the opposite side = primary entry model." },
+    },
+    { type: "paragraph", text: "After displacement, price often produces a shallow first pullback, then a deeper second retracement. The deeper second entry is often treated as higher quality — cleaner structure, better-defined invalidation — but this is a heuristic, not a requirement. A first valid retracement with clear rejection and immediate continuation can still be taken." },
+    {
+      type: "callout",
+      callout: { tone: "warn", heading: "The error this demonstration prevents", body: "Drawing Fib on a swing that didn't break structure produces an OTE band that means nothing. And OTE alone is not a setup — price can travel straight through 62–79% when no HTF POI sits inside it." },
+    },
+    {
+      type: "callout",
+      callout: { tone: "bull", heading: "Practice drill", body: "Draw Fibonacci retracements on 10 completed displacement legs (not random swings). Note whether the actual reaction happened nearer 62%, 70%, or 79%, and whether OTE alone would have been enough without other confluence." },
+    },
+  ],
+  8: [
+    {
+      type: "callout",
+      callout: { tone: "liq", heading: "Two questions before any LTF setup", body: "What is my directional bias for the session, and why? Where is my primary Draw on Liquidity hypothesis — and what would invalidate it? Bias and DOL are filters and working hypotheses, not predictions. If bias is unclear, the correct decision is often no trade." },
+    },
+    {
+      type: "conceptCards",
+      concepts: [
+        { plain: "Range-bound, building orders", term: "Accumulation", body: "Often Asia / early London." },
+        { plain: "Stop-run / liquidity sweep", term: "Manipulation", body: "Often into a killzone." },
+        { plain: "The real directional move", term: "Distribution", body: "After the manipulation." },
+      ],
+    },
+    {
+      type: "callout",
+      callout: { tone: "warn", heading: "AMD is a lens, not a law", body: "Many days skip accumulation entirely and open with immediate displacement. Others reverse after the \"distribution\" leg. Use AMD only to contextualize what has already happened — never to forecast the next phase." },
+    },
+    { type: "chart" },
+    {
+      type: "dataTable",
+      table: {
+        headers: ["Killzone", "Logic window", "Typical role"],
+        rows: [
+          ["Asia", "Roughly the Asian session range-building period", "Accumulation / range"],
+          ["London Open KZ", "~2-hour window bracketing the London open", "Often manipulation or first expansion"],
+          ["NY AM KZ", "~First 2–3 hours after New York open", "Highest-probability continuation / distribution"],
+          ["London Close", "Window around London cash close", "Profit-taking / possible reversal"],
+          ["NY PM", "Later New York session", "Lower volume; continuation or mean-reversion"],
+        ],
+      },
+    },
+    {
+      type: "dataTable",
+      table: {
+        headers: ["IB interaction", "What it looks like", "Read"],
+        rows: [
+          ["Stays inside IB", "Price oscillates within the first-hour range, no decisive break", "Range day — favor mean-reversion and breaker logic"],
+          ["Breaks and holds", "Displacement through the IB high/low that doesn't reclaim", "Trend day — favor continuation tools in the breakout direction"],
+          ["Sweeps and rejects", "Pokes beyond the IB extreme, closes back inside within 1–2 candles", "The IB extreme was swept — treat as a liquidity event"],
+        ],
+      },
+    },
+    {
+      type: "callout",
+      callout: { tone: "warn", heading: "SMT divergence — supporting context, never a standalone signal", body: "When correlated instruments disagree at a key level (e.g. NQ makes a new high, ES fails to), the instrument that confirms is the relative-strength leader — favor it for continuation, treat the lagging one with extra caution. Still needs a real liquidity event and displacement on the instrument being traded." },
+    },
+    {
+      type: "callout",
+      callout: { tone: "warn", heading: "News filter", body: "High-impact releases (FOMC, NFP, CPI) can override technical structure. Stay flat through the release or wait for post-news displacement and newly formed liquidity pools." },
+    },
+    {
+      type: "callout",
+      callout: { tone: "bull", heading: "Practice drill", body: "Track Asia/London/NY killzone highs and lows for one full week. Classify each day trend-day or range-day using the IB break/hold/reject test rather than a general impression." },
+    },
+  ],
+  9: [
+    {
+      type: "callout",
+      callout: { tone: "liq", heading: "floor(), always", body: "Position sizing always rounds down, never standard rounding — floor(3.9) = 3, never 4. Rounding up on a risk calculation means risking more than the stated cap." },
+    },
+    {
+      type: "dataTable",
+      table: {
+        headers: ["Formula", "Definition"],
+        rows: [
+          ["Stop distance", "|Entry − Stop|, always positive"],
+          ["Position size (contracts)", "floor( Max $ risk ÷ (Stop distance in points × $ per point) )"],
+          ["R-multiple", "|Exit − Entry| ÷ |Entry − Stop|"],
+          ["Expectancy (per trade)", "(Win% × Avg Win R) − (Loss% × Avg Loss R)"],
+          ["Breakeven win rate", "1 ÷ (1 + Average R) — e.g. at 2R you need ~33.3%"],
+        ],
+      },
+    },
+    {
+      type: "stackFit",
+      spec: {
+        heading: "Worked example: 55-point stop, $400 risk, MNQ ($2/pt)",
+        intro: "$110 planned loss per contract. floor(400 ÷ 110) = 3 contracts fit; a 4th would exceed the cap.",
+        budget: 400,
+        unit: 110,
+        fits: 3,
+        budgetLabel: "$400",
+        unitLabel: "$110",
+      },
+    },
+    {
+      type: "dataTable",
+      table: {
+        headers: ["Win rate", "Avg Win", "Avg Loss", "Expectancy"],
+        rows: [
+          ["55%", "1.5R", "1.0R", "+0.375R"],
+          ["45%", "2.2R", "1.0R", "+0.44R"],
+          ["40%", "2.0R", "1.0R", "+0.20R"],
+          ["35%", "2.0R", "1.0R", "+0.05R"],
+          ["30%", "2.5R", "1.0R", "+0.05R"],
+          ["30%", "2.0R", "1.0R", "−0.10R (losing)"],
+        ],
+      },
+    },
+    { type: "paragraph", text: "The math is conditional — it does not imply you will achieve any particular win rate. Transaction costs and slippage reduce realized expectancy further, especially on small R targets. Most discretionary traders do not start at 45–50% win rate on a new model; size risk so a string of losses is survivable while you gather a meaningful sample." },
+    {
+      type: "callout",
+      callout: { tone: "warn", heading: "Worked profile numbers — not learner defaults", body: "Dollar figures in this module belong to a worked Account Profile and exist to make the arithmetic inspectable. Each learner must define a separate maximum-risk variable from personal circumstances and independently verified account rules." },
+    },
+    {
+      type: "conceptCards",
+      concepts: [
+        { plain: "Never increase for conviction or urgency", term: "Fixed maximum", body: "Use the maximum declared in the Account Profile — a validation block locks that variable for the sample." },
+        { plain: "Against revenge trading", term: "Two-loss circuit breaker", body: "After two full losses in a session, stop trading for the remainder of that session." },
+        { plain: "Per account you run", term: "Track drawdown from peak", body: "Multiple accounts = multiple scoreboards." },
+        { plain: "Only tighten, never widen", term: "Stop discipline", body: "Never move a stop further away after entry. Only tighten or move to breakeven per plan." },
+      ],
+    },
+    {
+      type: "callout",
+      callout: { tone: "bull", heading: "Practice drill", body: "For 10 hypothetical MNQ setups (vary stop distance), manually calculate stop distance, dollar risk, and max contract size. Write down the exact decimal before rounding down, so the temptation to round up becomes visible and resistible." },
+    },
+  ],
+  10: [
+    { type: "paragraph", text: "All previous modules converge here. A pattern is not a trade. Only a pattern that survives the full checklist becomes a candidate." },
+    {
+      type: "flowChart",
+      heading: "6-step execution checklist",
+      steps: [
+        { label: "Daily bias & DOL", body: "Clear directional bias from HTF structure + nearest external liquidity. If bias is unclear → no trade." },
+        { label: "Liquidity event", body: "Sweep (or inducement + external run) has occurred. Genuine-sweep diagnostic passed against quantified thresholds, not just a visual impression." },
+        { label: "Displacement confirmation", body: "Strong impulsive move away from the swept liquidity, leaving OB + FVG." },
+        { label: "LTF entry model", body: "Price returns into a valid first-touch OB/FVG/OTE zone on the 5m aligned with HTF bias, and a 2m CHoCH or displacement candle confirms inside that zone." },
+        { label: "Risk & invalidation", body: "Stop placed beyond the structural invalidation point. Size calculated from that distance. Targets predefined." },
+        { label: "Session & context filters", body: "Killzone context acceptable, no imminent high-impact news, day-type doesn't contradict the tool set being used." },
+      ],
+    },
+    {
+      type: "callout",
+      callout: { tone: "liq", heading: "Decision filter", body: "If any step is missing or ambiguous → no trade. \"Almost\" setups are the ones that drain accounts." },
+    },
+    {
+      type: "callout",
+      callout: { tone: "warn", heading: "Quantified sweep diagnostic — a heuristic, not a law", body: "Price spends no more than 1–3 candles beyond the level before reversing, and the reversal closes back inside within 2 candles of the extreme. These specific numbers are structured execution conventions for consistency and checkability, not empirically validated constants." },
+    },
+    { type: "paragraph", text: "LTF confirmation filter: on the 5m OB/FVG zone identified by the checklist, wait for a 2-minute CHoCH or displacement candle to confirm inside that zone before entry — rather than resting a limit order at the outer edge and hoping the first touch holds. The entry timeframe stays 5m; 2m is confirmation only, not a separate search for new setups." },
+    { type: "chart" },
+    {
+      type: "dataTable",
+      table: {
+        caption: "Worked Trade 1 — synthetic mechanics demonstration, not market evidence.",
+        headers: ["Field", "Value"],
+        rows: [
+          ["Entry", "21,040 — the CE (50%) of the FVG, inside the OTE band"],
+          ["Stop", "20,965 — 5 pts beyond the sweep wick, 75-point distance"],
+          ["Size (MNQ, $2/pt, $400 cap)", "floor(400 ÷ (75 × 2)) = 2 contracts, $300 actual risk"],
+          ["TP1", "21,190 (2.0R) — scale 40%"],
+          ["TP2", "21,400 (external buy-side DOL) — ≈4.8R"],
+          ["Illustrative result", "Scaled 40% at 2.0R, runner closed at 2.5R → blended +2.3R"],
+        ],
+      },
+    },
+    {
+      type: "callout",
+      callout: { tone: "warn", heading: "Worked Trade 3 — a process-correct loss", body: "Same checklist, same discipline, still a loss: an unmarked 4H bearish OB sat above the entry that the 15m alone never showed. Price reached +0.6R, then reversed into stop. The process was followed correctly — missing higher-timeframe context is still a real risk the checklist can't fully close, which is exactly why Module 6's HTF-first sequencing matters." },
+    },
+  ],
 };
 
 function comingSoonBlocks(number: number): VisualBlock[] {
@@ -334,7 +574,7 @@ export const depthModules: DepthModule[] = Array.from({ length: 44 }, (_, i) => 
     phase: phaseOf(number),
     title: titles[number],
     status,
-    hasChart: status === "ready" && number <= 5,
+    hasChart: status === "ready" && [1, 2, 3, 4, 5, 6, 7, 8, 10].includes(number),
     blocks: status === "ready" ? readyBlocks[number] : comingSoonBlocks(number),
   };
 });
