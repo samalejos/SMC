@@ -2,16 +2,41 @@ import type { DepthModule, VisualBlock } from "@/lib/content/types";
 
 export interface Phase {
   name: string;
+  description: string;
   numbers: number[];
 }
 
 export const phases: Phase[] = [
-  { name: "Depth 1 · Visual Foundations", numbers: [1, 2, 3, 4, 5, 6, 7, 8, 11] },
-  { name: "Depth 2 · Evidence & Context", numbers: [12, 13, 14, 15, 16, 17, 18, 19, 31, 32, 33, 34, 35, 37, 38, 39] },
-  { name: "Depth 3 · Decision & Risk", numbers: [9, 10, 20, 21, 22, 36] },
-  { name: "Depth 4 · Simulation", numbers: [40, 41] },
-  { name: "Depth 5 · Controlled Transition", numbers: [42, 43, 44] },
-  { name: "Extension Library", numbers: [23, 24, 25, 26, 27, 28, 29, 30] },
+  {
+    name: "Depth 1 · Visual Foundations",
+    description: "The vocabulary from Beginner Academy, deepened: reading structure, liquidity, displacement, order blocks and FVGs on real charts instead of one guided example.",
+    numbers: [1, 2, 3, 4, 5, 6, 7, 8, 11],
+  },
+  {
+    name: "Depth 2 · Evidence & Context",
+    description: "Why the visual patterns happen and how to tell if they hold up — microstructure, statistics, macro context, order flow and the research discipline behind an edge.",
+    numbers: [12, 13, 14, 15, 16, 17, 18, 19, 31, 32, 33, 34, 35, 37, 38, 39],
+  },
+  {
+    name: "Depth 3 · Decision & Risk",
+    description: "Turning a qualified pattern into a sized, executable decision — risk math, worked execution examples, futures mechanics and trade management.",
+    numbers: [9, 10, 20, 21, 22, 36],
+  },
+  {
+    name: "Depth 4 · Simulation",
+    description: "Practice without capital — replaying historical decisions and building a statistical record before anything goes live.",
+    numbers: [40, 41],
+  },
+  {
+    name: "Depth 5 · Controlled Transition",
+    description: "The bridge to live execution, under supervision — a live-desk lab, the full system capstone, and an independent competence review.",
+    numbers: [42, 43, 44],
+  },
+  {
+    name: "Extension Library",
+    description: "Professional/quant-finance depth beyond the core path — econometrics, portfolio theory, derivatives, algorithmic trading and the business of trading.",
+    numbers: [23, 24, 25, 26, 27, 28, 29, 30],
+  },
 ];
 
 const titles: Record<number, string> = {
@@ -64,6 +89,22 @@ const titles: Record<number, string> = {
 function phaseOf(n: number): string {
   return phases.find((p) => p.numbers.includes(n))?.name ?? "Extension Library";
 }
+
+export interface BridgeRow {
+  stageSlug: string;
+  stageLabel: string;
+  moduleNumbers: number[];
+}
+
+export const beginnerBridge: BridgeRow[] = [
+  { stageSlug: "before-stage-1", stageLabel: "Before Stage 1 · Understand the screen", moduleNumbers: [21, 9] },
+  { stageSlug: "stage-1", stageLabel: "Stage 1 · See the chart", moduleNumbers: [1] },
+  { stageSlug: "stage-2", stageLabel: "Stage 2 · Read direction", moduleNumbers: [1, 6] },
+  { stageSlug: "stage-3", stageLabel: "Stage 3 · Find location", moduleNumbers: [2, 7] },
+  { stageSlug: "stage-4", stageLabel: "Stage 4 · Judge reaction", moduleNumbers: [3, 4, 5] },
+  { stageSlug: "stage-5", stageLabel: "Stage 5 · Make a decision", moduleNumbers: [9, 10] },
+  { stageSlug: "apply", stageLabel: "Apply it · Guided walkthrough", moduleNumbers: [8, 40] },
+];
 
 const readyBlocks: Record<number, VisualBlock[]> = {
   1: [
