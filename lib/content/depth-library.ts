@@ -221,6 +221,58 @@ const readyBlocks: Record<number, VisualBlock[]> = {
     },
     {
       type: "callout",
+      callout: {
+        tone: "liq",
+        heading: "Size alone isn't a measurement — efficiency is",
+        body: "A candle's range tells you how far price traveled. It doesn't tell you whether that travel was directional. Two numbers fix that: efficiency = |close − open| ÷ (high − low) — how much of the range became a real body versus wick — and wick ratio = (upper wick + lower wick) ÷ (high − low) — how much of the range was rejected on both sides. A candle can have a huge range and still fail as displacement if the wicks ate most of it.",
+      },
+    },
+    {
+      type: "meterBar",
+      spec: {
+        heading: "Example: a real displacement candle",
+        intro: "Range 30, body 26. Efficiency = 26 ÷ 30.",
+        valuePct: 87,
+        thresholdPct: 60,
+        valueLabel: "87% efficient",
+        passLabel: "directional",
+        failLabel: "not directional",
+        verdict: "pass",
+      },
+    },
+    {
+      type: "meterBar",
+      spec: {
+        heading: "Example: same range, two-way churn",
+        intro: "Range 30, body only 4 — the rest is wick on both sides. Efficiency = 4 ÷ 30.",
+        valuePct: 13,
+        thresholdPct: 60,
+        valueLabel: "13% efficient",
+        passLabel: "directional",
+        failLabel: "not directional — this is churn, not displacement",
+        verdict: "fail",
+      },
+    },
+    {
+      type: "regimeGrid",
+      spec: {
+        heading: "Volatility and efficiency are two separate questions",
+        intro: "\"How big was the candle\" and \"was it directional\" are different axes. Only one quadrant is displacement.",
+        highlightRow: "high",
+        highlightCol: "low",
+        highlightNote: "The 13%-efficiency example above lands here: high volatility, low efficiency — two-way churn, not displacement, no matter how large the range looks.",
+      },
+    },
+    {
+      type: "callout",
+      callout: {
+        tone: "warn",
+        heading: "Measure against the session, not one blended ATR",
+        body: "A single rolling ATR computed across Asia, London and NY blends three different volatility regimes into one number — so a real Asia-session move can fail a NY-calibrated threshold, and NY noise can pass an Asia-calibrated one. Same displacement formula, same efficiency cutoff: just measure the ATR baseline within the current session, not across all three. A 9-point body against a quiet Asia baseline and a 20-point body against an active NY baseline can both be genuinely large — check each against its own session, not one shared number.",
+      },
+    },
+    {
+      type: "callout",
       callout: { tone: "bull", heading: "Practice drill", body: "On 5 historical impulsive moves, mark the displacement leg, the FVG it left behind, and any liquidity void or BPR. Note the size of each displacement candle relative to the 10 candles before it." },
     },
   ],
@@ -432,6 +484,25 @@ const readyBlocks: Record<number, VisualBlock[]> = {
     {
       type: "dataTable",
       table: {
+        headers: ["Session", "Typical role (traditional convention)", "What that means for you"],
+        rows: [
+          ["Asia", "Builds the range — constructs the liquidity London and NY later use", "Treat Asia highs/lows as pools being built, not yet a directional signal"],
+          ["London", "Expands / sweeps — attacks the range Asia built, ahead of NY", "Watch specifically for Asia's extremes getting taken here"],
+          ["New York", "Distributes — inherits Asia's range and London's expansion, carries it further", "Highest volume and displacement reliability of the three"],
+        ],
+      },
+    },
+    {
+      type: "callout",
+      callout: {
+        tone: "warn",
+        heading: "Stated plainly, not softened into mush",
+        body: "This is real, observable behavior, not a hedge-everything disclaimer: Asia genuinely trades quieter and range-bound more often than not, London genuinely produces the first real expansion more often than not, NY genuinely carries the most reliable displacement of the three. What's not proven is the causal story of why — institutional intent behind it isn't verifiable from candles. Trade the pattern; don't need the myth behind it.",
+      },
+    },
+    {
+      type: "dataTable",
+      table: {
         headers: ["Killzone", "Logic window", "System convention (not a backtested claim)"],
         rows: [
           ["Asia", "Roughly the Asian session range-building period", "Treated as accumulation / range"],
@@ -450,6 +521,18 @@ const readyBlocks: Record<number, VisualBlock[]> = {
           ["Stays inside IB", "Price oscillates within the first-hour range, no decisive break", "Range day — favor mean-reversion and breaker logic"],
           ["Breaks and holds", "Displacement through the IB high/low that doesn't reclaim", "Trend day — favor continuation tools in the breakout direction"],
           ["Sweeps and rejects", "Pokes beyond the IB extreme, closes back inside within 1–2 candles", "The IB extreme was swept — treat as a liquidity event"],
+        ],
+      },
+    },
+    {
+      type: "dataTable",
+      table: {
+        caption: "\"Sweeps and rejects\" isn't one outcome — once price actually excurses beyond the IB, three different things happen, and they need three different reads.",
+        headers: ["Excursion outcome", "What it looks like", "Read"],
+        rows: [
+          ["Rejection", "Price pokes beyond the IB extreme and reverses back through it within 1–2 candles — a clean wick, no acceptance outside", "The excursion was the move. Look to fade it, back toward the opposite side of the IB or beyond"],
+          ["Acceptance", "Price breaks the IB extreme and closes beyond it, then holds — no reclaim on the following candles", "This is what \"breaks and holds\" above actually means in practice. Favor continuation in the breakout direction"],
+          ["Failed break", "Price pushes beyond the IB extreme, drifts out there for several candles without real displacement, then slowly reclaims — not a sharp rejection, not acceptance either", "The excursion didn't commit either way. This is the hardest of the three to trade — wait for the next decisive move instead of forcing a read on it"],
         ],
       },
     },
@@ -504,6 +587,14 @@ const readyBlocks: Record<number, VisualBlock[]> = {
     {
       type: "callout",
       callout: { tone: "warn", heading: "News filter and session-clock drift", body: "High-impact releases (FOMC, NFP, CPI) can override technical structure. Stay flat through the release or wait for post-news displacement and newly formed liquidity pools. Separately: London and New York shift into daylight saving on different dates each spring and fall, so a fixed killzone clock silently drifts by an hour for two to three weeks each transition — verify current session times against your platform rather than assuming last month's clock still applies." },
+    },
+    {
+      type: "callout",
+      callout: {
+        tone: "liq",
+        heading: "The thesis this module is built on",
+        body: "Everything above is one idea wearing different clothes: the same pattern reads differently depending on the session it happens in, because it isn't a different pattern — it's the same mechanic meeting a different liquidity and volatility backdrop. A break-and-hold in Asia's thin range and a break-and-hold in NY's volume are the same IB interaction with different confidence behind them, not two different setups. Session context doesn't change what a pattern is. It changes how much you should trust it.",
+      },
     },
     {
       type: "callout",

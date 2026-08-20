@@ -85,6 +85,14 @@ export interface DataTable {
   rows: string[][];
 }
 
+export interface RegimeGridSpec {
+  heading: string;
+  intro: string;
+  highlightRow: "low" | "high";
+  highlightCol: "low" | "high";
+  highlightNote: string;
+}
+
 export type VisualBlock =
   | { type: "chart" }
   | { type: "paragraph"; text: string }
@@ -93,6 +101,7 @@ export type VisualBlock =
   | { type: "comparePanels"; spec: ComparePanelsSpec }
   | { type: "meterBar"; spec: MeterBarSpec }
   | { type: "stackFit"; spec: StackFitSpec }
+  | { type: "regimeGrid"; spec: RegimeGridSpec }
   | { type: "flowChart"; heading: string; steps: FlowStep[] }
   | { type: "truthTable"; pair: TruthTablePair }
   | { type: "callout"; callout: Callout }

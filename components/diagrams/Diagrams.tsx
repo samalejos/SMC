@@ -1,4 +1,4 @@
-import type { ComparePanelsSpec, FlowStep, MeterBarSpec, PanelSpec, StackFitSpec } from "@/lib/content/types";
+import type { ComparePanelsSpec, FlowStep, MeterBarSpec, PanelSpec, RegimeGridSpec, StackFitSpec } from "@/lib/content/types";
 
 const C = {
   bull: "#22c55e",
@@ -114,6 +114,54 @@ export function StackFitBlock({ spec }: { spec: StackFitSpec }) {
           {spec.budgetLabel} budget ÷ {spec.unitLabel} each
         </span>
       </div>
+    </div>
+  );
+}
+
+const REGIME_QUADRANTS = {
+  "low-low": { label: "Chop", note: "Small range, no clear direction. Nothing to act on." },
+  "low-high": { label: "Controlled directional", note: "Small range, but efficient — a real move, just a small one." },
+  "high-high": { label: "Potential displacement", note: "Large range, efficient body. This is what qualifies as displacement." },
+  "high-low": { label: "Two-way churn", note: "Large range, inefficient body. A violent candle that went nowhere." },
+} as const;
+
+export function RegimeGridBlock({ spec }: { spec: RegimeGridSpec }) {
+  const rows: Array<"high" | "low"> = ["high", "low"];
+  const cols: Array<"low" | "high"> = ["low", "high"];
+  return (
+    <div className="rounded-lg border border-border bg-bg-card p-4">
+      <h4 className="text-sm font-bold text-text">{spec.heading}</h4>
+      <p className="mt-1 text-sm text-text-muted">{spec.intro}</p>
+      <div className="mt-4 grid grid-cols-[3.5rem_1fr_1fr] gap-1.5 text-xs">
+        <div />
+        <div className="text-center font-bold text-text-muted">Low efficiency</div>
+        <div className="text-center font-bold text-text-muted">High efficiency</div>
+        {rows.map((row) => (
+          <>
+            <div key={`${row}-label`} className="flex items-center justify-end pr-1 text-right font-bold text-text-muted">
+              {row === "high" ? "High vol" : "Low vol"}
+            </div>
+            {cols.map((col) => {
+              const key = `${row}-${col}` as keyof typeof REGIME_QUADRANTS;
+              const q = REGIME_QUADRANTS[key];
+              const active = spec.highlightRow === row && spec.highlightCol === col;
+              return (
+                <div
+                  key={key}
+                  className={`rounded-md border p-2.5 ${active ? "border-accent bg-accent/15" : "border-border bg-bg-elevated"}`}
+                >
+                  <div className={`text-xs font-bold ${active ? "text-accent" : "text-text"}`}>{q.label}</div>
+                  <div className="mt-0.5 text-[11px] text-text-muted">{q.note}</div>
+                </div>
+              );
+            })}
+          </>
+        ))}
+      </div>
+      <p className="mt-3 text-xs text-text-muted">
+        <strong className="text-accent">This example: </strong>
+        {spec.highlightNote}
+      </p>
     </div>
   );
 }

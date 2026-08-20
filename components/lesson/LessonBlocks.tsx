@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useProgress } from "@/lib/progress";
 import { GlossaryText } from "@/components/diagrams/InlineTerm";
-import { TrendGlyph, ComparePanelsBlock, MeterBarBlock, StackFitBlock, FlowChartBlock } from "@/components/diagrams/Diagrams";
+import { TrendGlyph, ComparePanelsBlock, MeterBarBlock, StackFitBlock, RegimeGridBlock, FlowChartBlock } from "@/components/diagrams/Diagrams";
 import { MicroDiagramGrid } from "@/components/diagrams/MicroDiagrams";
 import LessonChart from "@/components/chart/LessonChart";
 import type { ChartSceneData } from "@/lib/chart/types";
@@ -158,6 +158,8 @@ export function LessonBlockList({ blocks, scene }: { blocks: VisualBlock[]; scen
             return <MeterBarBlock key={i} spec={block.spec} />;
           case "stackFit":
             return <StackFitBlock key={i} spec={block.spec} />;
+          case "regimeGrid":
+            return <RegimeGridBlock key={i} spec={block.spec} />;
           case "flowChart":
             return <FlowChartBlock key={i} heading={block.heading} steps={block.steps} />;
           case "truthTable":
